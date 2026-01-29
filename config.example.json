@@ -1,0 +1,8 @@
+{
+  "num_bots": 4,
+  "max_retries": 3,
+  "retry_delay": 1.0,
+  "verbose": false,
+  "monitor_interval": 1.0,
+  "task_processor_config": {}
+}
