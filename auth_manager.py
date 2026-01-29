@@ -23,7 +23,6 @@ class AuthManager:
     
     def __init__(self):
         """Initialize the authentication manager."""
-        self.cookie_cache = {}
         logger.info("AuthManager initialized")
     
     def get_cookie(
@@ -58,7 +57,7 @@ class AuthManager:
                 'timestamp': time.time()
             }
             
-            logger.info(f"Authenticating user {username}")
+            logger.info(f"Attempting authentication for user: {username}")
             
             # Perform authentication request
             response = session.post(
@@ -96,9 +95,7 @@ class AuthManager:
             return None
         except requests.exceptions.RequestException as e:
             logger.error(f"Authentication request error: {str(e)}")
-            # For development/testing, return mock cookie on connection error
-            logger.warning("Returning mock cookie for testing")
-            return self._create_mock_cookie(credentials.get('username', 'test'))
+            return None
         except Exception as e:
             logger.error(f"Unexpected authentication error: {str(e)}")
             return None

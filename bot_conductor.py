@@ -12,11 +12,6 @@ from threading import Lock
 from phoenix_bot import PhoenixBot
 from data_validator import DataValidator
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
 logger = logging.getLogger(__name__)
 
 
@@ -39,7 +34,15 @@ class BotConductor:
         Args:
             max_workers: Maximum number of concurrent bot instances
             batch_size: Maximum number of PRIs per batch (default: 30)
+        
+        Raises:
+            ValueError: If max_workers or batch_size is not positive
         """
+        if max_workers <= 0:
+            raise ValueError("max_workers must be a positive integer")
+        if batch_size <= 0:
+            raise ValueError("batch_size must be a positive integer")
+        
         self.max_workers = max_workers
         self.batch_size = batch_size
         self.validator = DataValidator()
@@ -144,7 +147,7 @@ class BotConductor:
             'status': 'completed',
             'total_pris': len(pri_list),
             'successful': len(all_results),
-            'failed': len(failed_pris),
+            'failed_count': len(failed_pris),
             'results': all_results,
             'failed_pris': failed_pris
         }
@@ -245,7 +248,7 @@ class BotConductor:
         stats = {
             'total_pris_processed': results.get('total_pris', 0),
             'successful_extractions': results.get('successful', 0),
-            'failed_extractions': results.get('failed', 0),
+            'failed_extractions': results.get('failed_count', 0),
             'success_rate': 0.0
         }
         

@@ -14,6 +14,8 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 
+logger = logging.getLogger(__name__)
+
 
 def main():
     """Main example function."""
@@ -64,7 +66,7 @@ def main():
         print(f"\n   ✓ Extraction completed:")
         print(f"      - Total PRIs: {results['total_pris']}")
         print(f"      - Successful: {results['successful']}")
-        print(f"      - Failed: {results['failed']}")
+        print(f"      - Failed: {results['failed_count']}")
         
     except Exception as e:
         print(f"\n   ✗ Extraction failed: {str(e)}")

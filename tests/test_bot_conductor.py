@@ -112,7 +112,7 @@ class TestBotConductor:
         results = {
             'total_pris': 100,
             'successful': 95,
-            'failed': 5
+            'failed_count': 5
         }
         
         stats = conductor.get_statistics(results)
@@ -129,7 +129,7 @@ class TestBotConductor:
         results = {
             'total_pris': 0,
             'successful': 0,
-            'failed': 0
+            'failed_count': 0
         }
         
         stats = conductor.get_statistics(results)
@@ -147,3 +147,19 @@ class TestBotConductor:
         assert result['status'] == 'error'
         assert result['message'] == 'No PRIs to process'
         assert result['results'] == []
+    
+    def test_initialization_invalid_max_workers(self):
+        """Test initialization with invalid max_workers."""
+        with pytest.raises(ValueError, match="max_workers must be a positive integer"):
+            BotConductor(max_workers=0)
+        
+        with pytest.raises(ValueError, match="max_workers must be a positive integer"):
+            BotConductor(max_workers=-1)
+    
+    def test_initialization_invalid_batch_size(self):
+        """Test initialization with invalid batch_size."""
+        with pytest.raises(ValueError, match="batch_size must be a positive integer"):
+            BotConductor(batch_size=0)
+        
+        with pytest.raises(ValueError, match="batch_size must be a positive integer"):
+            BotConductor(batch_size=-5)
