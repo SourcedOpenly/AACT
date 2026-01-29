@@ -1,0 +1,11 @@
+# Bot Manager Module Requirements
+
+# Core dependencies (optional, only needed for YAML support)
+pyyaml>=5.4.1
+
+# Development dependencies
+# (Uncomment if needed for development)
+# pytest>=7.0.0
+# pytest-cov>=3.0.0
+# black>=22.0.0
+# flake8>=4.0.0
