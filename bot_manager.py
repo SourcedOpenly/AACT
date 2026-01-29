@@ -196,6 +196,7 @@ class Bot:
     def get_progress(self) -> BotProgress:
         """Get current progress of the bot"""
         with self._lock:
+            # Create a snapshot of progress within the lock to ensure consistency
             return BotProgress(
                 bot_id=self.progress.bot_id,
                 state=self.progress.state,
@@ -230,7 +231,7 @@ class BotManager:
             retry_delay: Delay in seconds between retries
         """
         if num_bots <= 0:
-            raise ValueError("Number of bots must be greater than 0")
+            raise ValueError(f"Number of bots must be greater than 0, got: {num_bots}")
         
         self.num_bots = num_bots
         self.task_processor = task_processor

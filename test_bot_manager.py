@@ -129,8 +129,8 @@ class TestBot(unittest.TestCase):
         self.assertFalse(results[0].success)
         self.assertIsNotNone(results[0].error)
         self.assertEqual(bot.progress.tasks_failed, 1)
-        # Should have retried 3 times with 0.1s delay between
-        self.assertGreater(elapsed, 0.2)
+        # 3 attempts total with 2 delays of 0.1s between them = 0.2s minimum
+        self.assertGreater(elapsed, 0.19)
     
     def test_bot_state_transitions(self):
         """Test bot state transitions"""

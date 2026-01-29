@@ -5,10 +5,16 @@ Handles configuration loading, validation, and management
 """
 
 import json
-import yaml
 from typing import Dict, Any, Optional
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 from pathlib import Path
+
+# Optional YAML support
+try:
+    import yaml
+    HAS_YAML = True
+except ImportError:
+    HAS_YAML = False
 
 
 @dataclass
@@ -31,24 +37,21 @@ class BotConfiguration:
     monitor_interval: float = 1.0
     
     # Custom task processor settings
-    task_processor_config: Dict[str, Any] = None
+    task_processor_config: Dict[str, Any] = field(default_factory=dict)
     
     def __post_init__(self):
         """Validate configuration after initialization"""
         if self.num_bots <= 0:
-            raise ValueError("num_bots must be greater than 0")
+            raise ValueError(f"num_bots must be greater than 0, got: {self.num_bots}")
         
         if self.max_retries < 0:
-            raise ValueError("max_retries must be non-negative")
+            raise ValueError(f"max_retries must be non-negative, got: {self.max_retries}")
         
         if self.retry_delay < 0:
-            raise ValueError("retry_delay must be non-negative")
+            raise ValueError(f"retry_delay must be non-negative, got: {self.retry_delay}")
         
         if self.monitor_interval <= 0:
-            raise ValueError("monitor_interval must be greater than 0")
-        
-        if self.task_processor_config is None:
-            self.task_processor_config = {}
+            raise ValueError(f"monitor_interval must be greater than 0, got: {self.monitor_interval}")
     
     def to_dict(self) -> Dict[str, Any]:
         """Convert configuration to dictionary"""
@@ -69,6 +72,8 @@ class BotConfiguration:
     @classmethod
     def from_yaml_file(cls, filepath: str) -> 'BotConfiguration':
         """Load configuration from YAML file"""
+        if not HAS_YAML:
+            raise ImportError("pyyaml is required for YAML support. Install it with: pip install pyyaml")
         with open(filepath, 'r') as f:
             config_dict = yaml.safe_load(f)
         return cls.from_dict(config_dict)
@@ -80,6 +85,8 @@ class BotConfiguration:
     
     def save_yaml(self, filepath: str):
         """Save configuration to YAML file"""
+        if not HAS_YAML:
+            raise ImportError("pyyaml is required for YAML support. Install it with: pip install pyyaml")
         with open(filepath, 'w') as f:
             yaml.dump(self.to_dict(), f, default_flow_style=False)
 

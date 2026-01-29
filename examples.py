@@ -211,8 +211,11 @@ def example_with_config_file():
     print("Example 4: Using Configuration File")
     print("="*60)
     
-    # Create default configuration file
-    config_file = '/tmp/bot_config.json'
+    # Create default configuration file in temp directory
+    import tempfile
+    import os
+    temp_dir = tempfile.gettempdir()
+    config_file = os.path.join(temp_dir, 'bot_config.json')
     ConfigurationManager.create_default_config(config_file, format='json')
     print(f"Created configuration file: {config_file}")
     

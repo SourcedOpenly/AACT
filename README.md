@@ -15,10 +15,18 @@ A Python module for managing concurrent task execution across multiple bot insta
 
 ## Installation
 
-No external dependencies required beyond Python standard library for basic usage. For YAML configuration support:
+The module works with Python 3.7+ and has no required external dependencies for basic JSON configuration support.
+
+For YAML configuration support, install:
 
 ```bash
 pip install pyyaml
+```
+
+Or install from requirements.txt:
+
+```bash
+pip install -r requirements.txt
 ```
 
 ## Quick Start

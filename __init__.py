@@ -7,7 +7,7 @@ A comprehensive module for managing concurrent task execution across multiple bo
 __version__ = '1.0.0'
 __author__ = 'AACT Project'
 
-from .bot_manager import (
+from bot_manager import (
     BotManager,
     Bot,
     BotState,
@@ -15,7 +15,7 @@ from .bot_manager import (
     TaskResult
 )
 
-from .bot_config import (
+from bot_config import (
     BotConfiguration,
     ConfigurationManager
 )
